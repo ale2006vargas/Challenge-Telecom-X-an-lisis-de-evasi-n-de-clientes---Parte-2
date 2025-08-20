@@ -1,0 +1,43 @@
+📄 Informe de análisis de cancelación de clientes
+1. Contexto general
+Este análisis busca identificar los factores más determinantes en la cancelación de clientes de un servicio de telecomunicaciones, aprovechando técnicas de machine learning para no solo explicar el fenómeno, sino también orientar estrategias de retención. 
+La tasa real de cancelación en la base es del 25,7 %, lo que implica que aproximadamente 1 de cada 4 clientes abandona el servicio. Este es un índice suficientemente alto como para justificar una estrategia de retención específica.
+Se entrenaron modelos con y sin balanceo, incorporando SMOTE para equiparar clases durante el entrenamiento y evaluar con datos reales desbalanceados.
+
+2. Modelos aplicados y su rendimiento
+Se seleccionaron dos modelos para este resumen principal:
+Modelo	Accuracy	Precisión (Clase 1)	Recall (Clase 1)	F1 (Clase 1)	Observaciones
+Regresión Logística	0.7689	0.5404	0.6791	0.6019	Detecta mejor a quienes cancelan, útil para minimizar falsos negativos.
+Random Forest	0.7909	0.5983	0.5695	0.5836	Mejor equilibrio global, robusto a relaciones no lineales.
+📌 Interpretación: La Regresión Logística sobresale cuando se prioriza “capturar” al cliente en riesgo antes de que se vaya (recall alto). El Random Forest ofrece estabilidad y ligeramente mayor precisión en sus predicciones, lo que ayuda a reducir alarmas falsas.
+
+3. Variables con mayor influencia
+La correlación y los coeficientes obtenidos orientan las siguientes conclusiones:
+Riesgo elevado de cancelación
+ServicioInternet_fiber optic (+0.30): clientes con fibra óptica cancelan más, posiblemente por competencia intensa en ese segmento o expectativas más altas.
+MetodoPago_electronic check (+0.29): asociados a mayor rotación; podrían presentar menor fidelidad o más fricciones en pagos.
+CobroMensual (+0.19) y Cuentas_Diarias (+0.19): a mayor gasto mensual o uso diario, se incrementa la probabilidad de baja si el cliente no percibe valor acorde.
+AdultoMayor (+0.15): ligera mayor propensión al abandono.
+Factores protectores contra la cancelación
+AntiguedadMeses (−0.34): mayor lealtad con el tiempo; después de cierto umbral, la propensión al churn cae significativamente.
+TipoContrato_two year (−0.30) y TipoContrato_one year (−0.17): contratos más largos retienen más.
+MetodoPago_credit card (automatic) (−0.13): pagos automáticos reducen riesgo.
+ServicioInternet_no (−0.22) y CobroTotal (−0.19): perfiles que han facturado mucho históricamente suelen ser clientes consolidados.
+
+4. Lectura integrada de hallazgos
+Los patrones apuntan a dos arquetipos de alto riesgo:
+Clientes recientes, con contrato mensual, fibra óptica y pago por cheque electrónico.
+Clientes de alta facturación mensual sin contratos de permanencia.
+Ambos grupos requieren intervenciones diferentes: el primero con beneficios de retención temprana; el segundo con revisión y optimización de plan para mejorar la percepción de valor.
+
+5. Estrategias recomendadas
+Retención temprana (primeros 3 meses) Bonos de permanencia, descuentos escalonados, seguimiento personalizado para usuarios con contrato mes a mes.
+Migración a pagos automáticos Incentivar la tarjeta de crédito/débito automático con beneficios exclusivos.
+Gestión proactiva en fibra óptica Promociones combinadas, soporte preventivo y diferenciación frente a la competencia.
+Planes de lealtad por antigüedad Recompensas acumulativas para clientes de alta duración, acceso preferente a mejoras de servicio.
+Control de facturación y percepción de valor Avisos preventivos cuando el cobro mensual supere ciertos percentiles; ofrecer planes personalizados en esos casos.
+
+6. Próximos pasos técnicos
+Incorporar modelos adicionales (SVM RBF, XGBoost) para capturar interacciones complejas.
+Calcular importancias por permutación y métodos como SHAP para validar interpretaciones.
+Implementar un score de riesgo individual y medir la efectividad de las acciones en pruebas A/B.
